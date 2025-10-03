@@ -10,7 +10,7 @@
 </svelte:head>
 
 <div class="min-h-screen bg-black text-green-400" style="font-family: 'JetBrains Mono', monospace;">
-	<div class="container mx-auto px-8 py-20">
+	<div class="container mx-auto px-8 pt-12 pb-4">
 		<div class="max-w-4xl mx-auto">
 			<div class="flex flex-col md:flex-row items-center gap-12 mb-20">
 				<div class="flex-shrink-0">

@@ -26,7 +26,7 @@
 						<div><span class="text-gray-500">→</span> <a href="https://github.com/babakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">github.com/babakhanov</a></div>
 						<div><span class="text-gray-500">→</span> <a href="https://linkedin.com/in/babakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">linkedin.com/in/babakhanov</a></div>
 						<div><span class="text-gray-500">→</span> <a href="https://instagram.com/alexbabakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">instagram.com/alexbabakhanov</a></div>
-						<div><span class="text-gray-500">→</span> <a href="https://t.me/patercap" target="_blank" class="text-green-400 hover:text-green-300 transition underline">t.me/patercap</a></div>
+						<div><span class="text-gray-500">→</span> <a href="https://t.me/alexbabakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">t.me/alexbabakhanov</a></div>
 					</div>
 				</div>
 			</div>

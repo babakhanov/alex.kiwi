@@ -23,6 +23,7 @@
 					<h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Alex Babakhanov</h1>
 					<p class="text-xl text-green-300 mb-8">&gt; Developer & Photographer</p>
 					<div class="space-y-2">
+						<div><span class="text-gray-500">→</span> <a href="mailto:me@alex.kiwi" class="text-green-400 hover:text-green-300 transition underline">me@alex.kiwi</a></div>
 						<div><span class="text-gray-500">→</span> <a href="https://github.com/babakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">github.com/babakhanov</a></div>
 						<div><span class="text-gray-500">→</span> <a href="https://linkedin.com/in/babakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">linkedin.com/in/babakhanov</a></div>
 						<div><span class="text-gray-500">→</span> <a href="https://instagram.com/alexbabakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">instagram.com/alexbabakhanov</a></div>

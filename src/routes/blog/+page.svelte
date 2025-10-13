@@ -14,7 +14,10 @@
 					<span class="text-gray-500">$</span> <span class="text-white">cd blog</span>
 				</div>
 				<h1 class="text-4xl font-bold text-white mb-4">Blog</h1>
-				<p class="text-xl text-green-300">&gt; Coming soon...</p>
+				<p class="text-xl text-green-300 mb-4">&gt; Coming soon...</p>
+				<div>
+					<span class="text-gray-500">→</span> <a href="/" class="text-green-400 hover:text-green-300 transition underline">cd ..</a>
+				</div>
 			</div>
 
 			<section class="mb-20 border border-green-900 p-8 rounded bg-green-950/20">

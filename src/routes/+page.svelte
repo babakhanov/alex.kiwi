@@ -1,5 +1,7 @@
 <script>
 	import kiwi from '$lib/assets/kiwi.svg';
+
+	const currentYear = new Date().getFullYear();
 </script>
 
 <svelte:head>
@@ -28,6 +30,7 @@
 						<div><span class="text-gray-500">→</span> <a href="https://linkedin.com/in/babakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">linkedin.com/in/babakhanov</a></div>
 						<div><span class="text-gray-500">→</span> <a href="https://instagram.com/alexbabakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">instagram.com/alexbabakhanov</a></div>
 						<div><span class="text-gray-500">→</span> <a href="https://t.me/alexbabakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">t.me/alexbabakhanov</a></div>
+						<div><span class="text-gray-500">→</span> <a href="/blog" class="text-green-400 hover:text-green-300 transition underline">/blog</a></div>
 					</div>
 				</div>
 			</div>
@@ -49,7 +52,7 @@
 			</section>
 
 			<footer class="text-center pt-12 border-t border-green-900">
-				<p class="text-gray-600">© 2025 Alex Babakhanov</p>
+				<p class="text-gray-600">© {currentYear} Alex Babakhanov</p>
 			</footer>
 		</div>
 	</div>

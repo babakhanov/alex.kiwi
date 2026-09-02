@@ -1,5 +1,5 @@
 <script>
-	import kiwi from '$lib/assets/kiwi.svg';
+	import { asset, resolve } from '$app/paths';
 
 	const currentYear = new Date().getFullYear();
 </script>
@@ -16,7 +16,7 @@
 		<div class="max-w-4xl mx-auto">
 			<div class="flex flex-col md:flex-row items-center gap-12 mb-20">
 				<div class="flex-shrink-0">
-					<img src={kiwi} alt="Alex Babakhanov" class="w-48 h-48 md:w-64 md:h-64" />
+					<img src={asset('/kiwi.svg')} alt="Alex Babakhanov" class="w-48 h-48 md:w-64 md:h-64" />
 				</div>
 				<div class="flex-1">
 					<div class="mb-6">
@@ -30,7 +30,7 @@
 						<div><span class="text-gray-500">→</span> <a href="https://linkedin.com/in/babakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">linkedin.com/in/babakhanov</a></div>
 						<div><span class="text-gray-500">→</span> <a href="https://instagram.com/alexbabakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">instagram.com/alexbabakhanov</a></div>
 						<div><span class="text-gray-500">→</span> <a href="https://t.me/alexbabakhanov" target="_blank" class="text-green-400 hover:text-green-300 transition underline">t.me/alexbabakhanov</a></div>
-						<div><span class="text-gray-500">→</span> <a href="/blog" class="text-green-400 hover:text-green-300 transition underline">/blog</a></div>
+						<div><span class="text-gray-500">→</span> <a href={resolve('/blog')} class="text-green-400 hover:text-green-300 transition underline">/blog</a></div>
 					</div>
 				</div>
 			</div>

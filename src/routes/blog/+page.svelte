@@ -1,4 +1,6 @@
 <script>
+	import { resolve } from '$app/paths';
+
 	const currentYear = new Date().getFullYear();
 </script>
 
@@ -16,7 +18,7 @@
 				<h1 class="text-4xl font-bold text-white mb-4">Blog</h1>
 				<p class="text-xl text-green-300 mb-4">&gt; Coming soon...</p>
 				<div>
-					<span class="text-gray-500">→</span> <a href="/" class="text-green-400 hover:text-green-300 transition underline">cd ..</a>
+					<span class="text-gray-500">→</span> <a href={resolve('/')} class="text-green-400 hover:text-green-300 transition underline">cd ..</a>
 				</div>
 			</div>
 

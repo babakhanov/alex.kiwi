@@ -1,38 +1,49 @@
-# sv
+# alex.kiwi
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
+Personal site built with [SvelteKit](https://svelte.dev/docs/kit), statically
+prerendered and served from GitHub Pages.
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
 ```sh
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
 ## Building
-
-To create a production version of your app:
 
 ```sh
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+This prerenders the whole site with
+[`@sveltejs/adapter-static`](https://svelte.dev/docs/kit/adapter-static) into
+`docs/`, which is committed to the repo — GitHub Pages is configured to serve
+from the `docs/` folder on `main`, so deploying is just committing the build.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Preview the production build with `npm run preview`.
+
+### Portable base path
+
+The build uses `kit.paths.relative`, and internal links/assets go through
+`resolve()` / `asset()` from `$app/paths`, so URLs are emitted relative to the
+current page. The same `docs/` build therefore works unchanged at both:
+
+- `https://alex.kiwi`
+- `https://babakhanov.github.io/alex.kiwi`
+
+Because of this, keep new internal links and images going through
+`resolve('/some/route')` and `asset('/some-file.svg')` rather than hardcoding
+absolute paths like `href="/blog"` or importing images from `$lib`. Vite-imported
+assets get absolute `/_app/...` URLs, which break under a path prefix — put
+images in `static/` and reference them with `asset()`.
+
+`static/.nojekyll` is required: without it GitHub Pages runs Jekyll, which
+ignores the underscore-prefixed `_app/` directory and the site loses all its JS
+and CSS.
+
+### Custom domain
+
+There is deliberately no `CNAME` file, so both URLs above stay live. Adding one
+(`echo alex.kiwi > static/CNAME`) sets the custom domain and makes GitHub
+redirect the `github.io` URL to `alex.kiwi`.

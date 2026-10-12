@@ -1,0 +1,56 @@
+name: Build
+
+# Builds the site on GitHub. The build job runs on every push and pull
+# request, so a broken build is caught without depending on anyone's laptop.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          # adapter-static writes the site here (see vite.config.ts)
+          path: docs
+
+  # Publishing from the workflow needs GitHub Pages to be set to
+  # "GitHub Actions" (Settings -> Pages -> Source). Until that switch is made,
+  # this job is skipped and the branch-based Pages build of `docs/` keeps
+  # serving the site. Set the repository variable DEPLOY_PAGES=true to turn
+  # this on.
+  deploy:
+    if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - uses: actions/deploy-pages@v4
+        id: deployment

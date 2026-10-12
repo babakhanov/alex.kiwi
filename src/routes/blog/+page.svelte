@@ -1,42 +1,62 @@
-<script>
+<script lang="ts">
 	import { resolve } from '$app/paths';
-
-	const currentYear = new Date().getFullYear();
 </script>
 
 <svelte:head>
 	<title>Blog - Alex Babakhanov</title>
 </svelte:head>
 
-<div class="min-h-screen bg-black text-green-400" style="font-family: 'JetBrains Mono', monospace;">
-	<div class="container mx-auto px-8 pt-12 pb-4">
-		<div class="max-w-4xl mx-auto">
-			<div class="mb-12">
-				<div class="mb-6">
-					<span class="text-gray-500">$</span> <span class="text-white">cd blog</span>
-				</div>
-				<h1 class="text-4xl font-bold text-white mb-4">Blog</h1>
-				<p class="text-xl text-green-300 mb-4">&gt; Coming soon...</p>
-				<div>
-					<span class="text-gray-500">→</span> <a href={resolve('/')} class="text-green-400 hover:text-green-300 transition underline">cd ..</a>
-				</div>
-			</div>
+<main class="shell blog">
+	<div class="blog__intro">
+		<p class="prompt"><span class="sigil">$</span> <span class="cmd">cd blog</span></p>
 
-			<section class="mb-20 border border-green-900 p-8 rounded bg-green-950/20">
-				<div class="mb-4">
-					<span class="text-gray-500">$</span> <span class="text-white">ls -la</span>
-				</div>
-				<div class="text-green-300 space-y-3 pl-4">
-					<p>total 0</p>
-					<p>drwxr-xr-x  2 alex  staff   64B Oct 13 12:00 .</p>
-					<p>drwxr-xr-x  3 alex  staff   96B Oct 13 12:00 ..</p>
-					<p>No blog posts yet. Check back soon!</p>
-				</div>
-			</section>
+		<h1 class="gradient-text">Blog</h1>
 
-			<footer class="text-center pt-12 border-t border-green-900">
-				<p class="text-gray-600">© {currentYear} Alex Babakhanov</p>
-			</footer>
-		</div>
+		<p class="tagline"><span class="sigil">&gt;</span> Coming soon...</p>
+
+		<a class="link blog__back" href={resolve('/')}>
+			<span class="arrow" aria-hidden="true">←</span>cd ..
+		</a>
 	</div>
-</div>
+
+	<div class="panel">
+		<p class="prompt"><span class="sigil">$</span> <span class="cmd">ls -la</span></p>
+		<pre>total 0
+drwxr-xr-x  2 alex  staff   64B Oct 13 12:00 .
+drwxr-xr-x  3 alex  staff   96B Oct 13 12:00 ..
+No blog posts yet. Check back soon!</pre>
+	</div>
+</main>
+
+<style>
+	.blog {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(2.5rem, 6vw, 3.5rem);
+		padding-block: clamp(3.5rem, 12vh, 7rem) clamp(3.5rem, 10vh, 6rem);
+	}
+
+	.blog__intro {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(0.9rem, 2vw, 1.25rem);
+		align-items: flex-start;
+	}
+
+	h1 {
+		font-size: clamp(2rem, 1.4rem + 3.4vw, 3.25rem);
+	}
+
+	.blog__back {
+		margin-top: 0.35rem;
+		margin-left: -0.85rem;
+	}
+
+	pre {
+		overflow-x: auto;
+		color: var(--ink-dim);
+		font: inherit;
+		line-height: 1.9;
+		white-space: pre;
+	}
+</style>

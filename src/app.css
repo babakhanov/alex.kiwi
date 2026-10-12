@@ -1,24 +1,298 @@
-@import "tailwindcss";
+/* ---------------------------------------------------------------------------
+   alex.kiwi — design tokens and shared chrome.
 
-/* Hide scrollbar when content fits viewport */
-html {
-  overflow-y: auto;
+   Plain CSS, no framework. Tokens first, then reset, then the handful of
+   primitives every page shares (.shell, .prompt, .panel, .link). Anything
+   page-specific lives in that page's <style> block.
+   --------------------------------------------------------------------------- */
+
+:root {
+	color-scheme: dark;
+
+	/* Surfaces: near-black with a cold cast, so the greens read as light. */
+	--bg: #05080b;
+	--ink: #e3f6ef;
+	--ink-dim: #8fa8a3;
+	--ink-faint: #5b736f;
+
+	/* Phosphor green is the terminal voice; ice cyan keeps it futuristic
+	   rather than retro. */
+	--accent: #2fe8a6;
+	--accent-bright: #3ce0a8;
+	--cool: #4fd8ff;
+
+	--line: rgba(47, 232, 166, 0.14);
+	--line-strong: rgba(47, 232, 166, 0.32);
+	--panel: rgba(255, 255, 255, 0.014);
+	--glow: rgba(47, 232, 166, 0.12);
+
+	--font-display: 'Space Grotesk', system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	/* Fluid type: every step scales with the viewport, no breakpoint jumps. */
+	--step--1: clamp(0.78rem, 0.75rem + 0.15vw, 0.86rem);
+	--step-0: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+	--step-1: clamp(1.08rem, 1rem + 0.6vw, 1.35rem);
+	--step-3: clamp(2.1rem, 1.4rem + 4.4vw, 4rem);
+
+	--shell: 1080px;
+	--pad: clamp(1.25rem, 4vw, 3.5rem);
+	--radius: 14px;
 }
 
-/* Custom scrollbar styling */
+/* === reset ================================================================ */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+* {
+	margin: 0;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	background: var(--bg);
+	color: var(--ink);
+	font: 400 var(--step-0) / 1.65 var(--font-mono);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow-x: hidden;
+}
+
+img,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+a {
+	color: inherit;
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+::selection {
+	background: rgba(47, 232, 166, 0.28);
+	color: #ffffff;
+}
+
+/* Custom scrollbar, kept from the original design but tied to the palette. */
+html {
+	scrollbar-color: var(--line-strong) transparent;
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
+	width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000;
+	background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #166534;
-  border-radius: 4px;
+	background: #1a5c44;
+	border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #15803d;
+	background: #259a72;
+}
+
+/* === backdrop ============================================================= */
+
+/* A measured grid that fades out downward, plus two soft light washes: the
+   "instrument panel" look, done entirely in CSS so it costs no markup. */
+body::before,
+body::after {
+	content: '';
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	/* Keep this at 0, not -1: negative z-index on a fixed layer gets its own
+	   compositor layer, and scrolling can make it paint over (or drop) the
+	   page content. The content wrapper sits above it via `.page`'s z-index. */
+	z-index: 0;
+}
+
+body::before {
+	background-image:
+		linear-gradient(var(--line) 1px, transparent 1px),
+		linear-gradient(90deg, var(--line) 1px, transparent 1px);
+	background-size: 64px 64px;
+	-webkit-mask-image: radial-gradient(120% 85% at 50% 0%, #000 0%, transparent 72%);
+	mask-image: radial-gradient(120% 85% at 50% 0%, #000 0%, transparent 72%);
+}
+
+body::after {
+	background:
+		radial-gradient(55% 40% at 12% -5%, var(--glow), transparent 70%),
+		radial-gradient(45% 35% at 100% 105%, rgba(79, 216, 255, 0.07), transparent 70%);
+}
+
+/* === layout primitives ==================================================== */
+
+.page {
+	display: flex;
+	flex-direction: column;
+	min-height: 100svh;
+	/* Paint above the fixed backdrop layers (body::before/::after, z-index 0)
+	   without relying on a negative z-index that scroll compositing breaks. */
+	position: relative;
+	z-index: 1;
+}
+
+.page > main {
+	flex: 1;
+}
+
+.shell {
+	width: 100%;
+	max-width: var(--shell);
+	margin-inline: auto;
+	padding-inline: var(--pad);
+}
+
+.footer {
+	border-top: 1px solid var(--line);
+	padding-block: clamp(1.4rem, 4vw, 2.25rem);
+	color: var(--ink-faint);
+	font-size: var(--step--1);
+}
+
+/* === type ================================================================= */
+
+h1,
+h2 {
+	font-family: var(--font-display);
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: -0.03em;
+}
+
+.gradient-text {
+	background: linear-gradient(100deg, #eafff7 8%, var(--accent) 58%, var(--cool) 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+/* Never let a clipped gradient hide the heading outright. */
+@supports not ((background-clip: text) or (-webkit-background-clip: text)) {
+	.gradient-text {
+		background: none;
+		color: var(--ink);
+	}
+}
+
+/* Terminal prompt: "$ whoami", "$ cat about.txt" */
+.prompt {
+	font-size: var(--step--1);
+	letter-spacing: 0.04em;
+	color: var(--ink-faint);
+}
+
+.prompt .sigil {
+	color: var(--accent);
+}
+
+.prompt .cmd {
+	color: var(--ink);
+	font-weight: 500;
+}
+
+.tagline {
+	font-size: var(--step-1);
+	color: var(--accent);
+}
+
+.tagline .sigil {
+	color: var(--ink-faint);
+}
+
+/* === links ================================================================ */
+
+.link-list {
+	display: grid;
+	gap: 0.4rem;
+	padding: 0;
+	list-style: none;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+
+.link {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	padding: 0.7rem 0.85rem;
+	border: 1px solid transparent;
+	border-radius: 10px;
+	color: var(--ink-dim);
+	text-decoration: none;
+	transition:
+		color 0.18s ease,
+		border-color 0.18s ease,
+		background-color 0.18s ease;
+}
+
+.link:hover,
+.link:focus-visible {
+	color: var(--accent);
+	border-color: var(--line-strong);
+	background-color: rgba(47, 232, 166, 0.05);
+}
+
+.link .arrow {
+	flex: none;
+	color: var(--accent);
+	transition: transform 0.18s ease;
+}
+
+.link:hover .arrow {
+	transform: translateX(3px);
+}
+
+/* === panels =============================================================== */
+
+.panel {
+	padding: clamp(1.25rem, 3vw, 2rem);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background:
+		linear-gradient(180deg, rgba(47, 232, 166, 0.035), transparent 55%),
+		var(--panel);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.panel .prompt {
+	margin-bottom: 1.1rem;
+}
+
+.panel p {
+	color: var(--ink-dim);
+}
+
+.panel p + p {
+	margin-top: 0.85rem;
+}
+
+/* === motion =============================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
 }

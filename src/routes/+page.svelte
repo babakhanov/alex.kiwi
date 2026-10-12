@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { asset, resolve } from '$app/paths';
+	import Bird from '../lib/Bird.svelte';
+	import { resolve } from '$app/paths';
 
 	const links = [
 		{ label: 'me@alex.kiwi', href: 'mailto:me@alex.kiwi' },
@@ -50,7 +51,7 @@
 		</div>
 
 		<div class="hero__art">
-			<img src={asset('kiwi.svg')} alt="" width="930" height="795" />
+			<Bird />
 		</div>
 	</section>
 
@@ -136,13 +137,6 @@
 		border-radius: 50%;
 		background: radial-gradient(circle at 50% 45%, rgba(47, 232, 166, 0.18), transparent 65%);
 		filter: blur(8px);
-	}
-
-	.hero__art img {
-		position: relative;
-		width: 100%;
-		height: auto;
-		filter: drop-shadow(0 0 26px rgba(47, 232, 166, 0.22));
 	}
 
 	.about {
